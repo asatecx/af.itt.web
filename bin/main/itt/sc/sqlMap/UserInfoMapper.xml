@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="af.itt.sc.mapper.UserInfoMapper">
+  <resultMap id="BaseResultMap" type="af.itt.sc.bean.UserInfo">
+    <id column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="tel_number" jdbcType="VARCHAR" property="telNumber" />
+    <result column="mail_address" jdbcType="VARCHAR" property="mailAddress" />
+    <result column="authority_cd" jdbcType="CHAR" property="authorityCd" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="del_flg" jdbcType="CHAR" property="delFlg" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_date" jdbcType="DATE" property="createDate" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="update_date" jdbcType="DATE" property="updateDate" />
+  </resultMap>
+  <sql id="searchBy">
+    <trim prefix="where" prefixOverrides="and|or|,">
+        <if test="userId != '' and userId != null">
+            user.user_id like CONCAT('%',#{userId, jdbcType=VARCHAR},'%')
+        </if>
+        <if test="userName != '' and userName != null">
+            AND user.user_name like CONCAT('%',#{userName, jdbcType=VARCHAR},'%')
+        </if>
+        <if test="userRoot != '' and userRoot != null">
+            AND user.authority_cd = #{userRoot, jdbcType=VARCHAR}
+        </if>
+        <if test="delFlag != '' and delFlag != null">
+            AND user.del_flg = #{delFlag, jdbcType=VARCHAR}
+        </if>
+        <if test="delFlag == null">
+            AND user.del_flg = '0'
+        </if>
+    </trim>
+  </sql>
+  <sql id="orderBy">
+    <trim prefix="order by" prefixOverrides=",">
+        <if test="userId != '' and userId != null">
+                user.user_id asc
+        </if>
+        <if test="userName != '' and userName != null">
+            ,user.user_name asc
+        </if>
+        <if test="userRoot != '' and userRoot != null">
+            ,user.authority_cd asc
+        </if>
+        <if test="delFlag != '' and delFlag != null">
+            ,user.del_flg asc
+        </if>
+    </trim>
+  </sql>
+
+  <sql id="Base_Column_List">
+    user_id, user_name, password, tel_number, mail_address, authority_cd, memo, del_flg,
+    create_user, create_date, update_user, update_date
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_tr_user_info
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+    <select id="getUserList"  resultMap="BaseResultMap">
+    select
+         user_id
+        ,user_name
+        ,password
+        ,tel_number
+        ,mail_address
+        ,authority_cd
+        ,memo
+        ,del_flg
+    from tb_tr_user_info
+    where user_id = #{userId}
+              and password = #{password}
+              and del_flg = '0'
+  </select>
+
+  <select id="selectUserInfo" resultMap="BaseResultMap">
+        select
+         user.user_id
+        ,user.user_name
+        ,user.password
+        ,user.tel_number
+        ,user.mail_address
+        ,user.authority_cd
+        ,user.memo
+        ,user.del_flg
+        ,user.create_user
+        ,user.create_date
+        ,user.update_user
+        ,user.update_date
+        ,auth.authority_name
+    from tb_tr_user_info user left join tb_mst_authority_info auth
+    on user.authority_cd = auth.authority_cd
+    where
+        1=1
+        <if test="userId != '' and userId != null">
+            AND user.user_id like CONCAT('%',#{userId, jdbcType=VARCHAR},'%')
+        </if>
+        <if test="userName != '' and userName != null">
+            AND user.user_name like CONCAT('%',#{userName, jdbcType=VARCHAR},'%')
+        </if>
+        <if test="userRoot != '' and userRoot != null">
+            AND user.authority_cd = #{userRoot, jdbcType=VARCHAR}
+        </if>
+        <if test="delFlag != '' and delFlag != null">
+            AND user.del_flg = #{delFlag, jdbcType=VARCHAR}
+        </if>
+        <if test="delFlag == null">
+            AND user.del_flg = '0'
+        </if>
+    <include refid="orderBy"></include>
+
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_tr_user_info
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="af.itt.sc.bean.UserInfo">
+    insert into tb_tr_user_info (user_id, user_name, password,
+      tel_number, mail_address, authority_cd,
+      memo, del_flg, create_user,
+      create_date, update_user, update_date
+      )
+    values (#{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+      #{telNumber,jdbcType=VARCHAR}, #{mailAddress,jdbcType=VARCHAR}, #{authorityCd,jdbcType=CHAR},
+      #{memo,jdbcType=VARCHAR}, #{delFlg,jdbcType=CHAR}, #{createUser,jdbcType=VARCHAR},
+      sysdate(), #{updateUser,jdbcType=VARCHAR}, sysdate()
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="af.itt.sc.bean.UserInfo">
+    insert into tb_tr_user_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="telNumber != null">
+        tel_number,
+      </if>
+      <if test="mailAddress != null">
+        mail_address,
+      </if>
+      <if test="authorityCd != null">
+        authority_cd,
+      </if>
+      <if test="memo != null">
+        memo,
+      </if>
+      <if test="delFlg != null">
+        del_flg,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="telNumber != null">
+        #{telNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="mailAddress != null">
+        #{mailAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="authorityCd != null">
+        #{authorityCd,jdbcType=CHAR},
+      </if>
+      <if test="memo != null">
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlg != null">
+        #{delFlg,jdbcType=CHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=DATE},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="af.itt.sc.bean.UserInfo">
+    update tb_tr_user_info
+    <set>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="telNumber != null">
+        tel_number = #{telNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="mailAddress != null">
+        mail_address = #{mailAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="authorityCd != null">
+        authority_cd = #{authorityCd,jdbcType=CHAR},
+      </if>
+      <if test="memo != null">
+        memo = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlg != null">
+        del_flg = #{delFlg,jdbcType=CHAR},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=DATE},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=DATE},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="af.itt.sc.bean.UserInfo">
+    update tb_tr_user_info
+    set user_name = #{userName,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      tel_number = #{telNumber,jdbcType=VARCHAR},
+      mail_address = #{mailAddress,jdbcType=VARCHAR},
+      authority_cd = #{authorityCd,jdbcType=CHAR},
+      memo = #{memo,jdbcType=VARCHAR},
+      del_flg = #{delFlg,jdbcType=CHAR},
+<!--       create_user = #{createUser,jdbcType=VARCHAR}, -->
+<!--       create_date = #{createDate,jdbcType=DATE}, -->
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_date = sysdate()
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+    <settings>
+        <setting name="updateBatchSize" value="10" />
+        <setting name="defaultLocale" value="ja" />
+        <setting name="logImpl" value="LOG4J2"/>
+    </settings>
+    
+    <typeAliases>
+        <typeAlias alias="company" type="pf.main.model.Company" />
+        <typeAlias alias="companyService" type="pf.main.model.CompanyService" />
+        <typeAlias alias="config" type="pf.main.model.Config" />
+        <typeAlias alias="log" type="pf.main.model.Log" />
+        <typeAlias alias="notice" type="pf.main.model.Notice" />
+        <typeAlias alias="role" type="pf.main.model.Role" />
+        <typeAlias alias="bizFuncRoleItem" type="pf.main.model.BizFuncRoleItem" />
+        <typeAlias alias="bizRole" type="pf.main.model.BizRole" />
+        <typeAlias alias="service" type="pf.main.model.Service" />
+        <typeAlias alias="funcRoleItem" type="pf.main.model.FuncRoleItem" />
+        <typeAlias alias="section" type="pf.main.model.Section" />
+        <typeAlias alias="sectionUser" type="pf.main.model.SectionUser" />
+        <typeAlias alias="sequence" type="pf.base.model.Sequence" />
+        <typeAlias alias="user" type="pf.main.model.User" />
+        <typeAlias alias="userRole" type="pf.main.model.UserRole" />
+        <typeAlias alias="taskSchedule" type="pf.main.model.TaskSchedule" />
+        <typeAlias alias="taskHistory" type="pf.main.model.TaskHistory" />
+    </typeAliases>
+
+</configuration>

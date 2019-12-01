@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="T_PF_HR_PORTAL">
+
+    <select id="selectUserList" parameterType="map" resultType="notice">
+      SELECT
+          COMPANY_ID,
+          NOTICE_SEQ,
+          TITLE,
+          NOTICE_CONTENTS,
+          CREATE_USER,
+          UPDATE_USER,
+          CREATE_DATE_TIME,
+          UPDATE_DATE_TIME
+          FROM
+          T_PF_SYS_NOTICE
+      WHERE
+          COMPANY_ID = #{COMPANY_ID}
+          <if test="NOTICE_SEQ != null">
+            AND NOTICE_SEQ = #{NOTICE_SEQ}
+          </if>
+          <if test="NOTICE_SEQ == null">
+            AND NOTICE_SEQ = (SELECT MAX(NOTICE_SEQ) FROM T_PF_SYS_NOTICE WHERE COMPANY_ID = #{COMPANY_ID})
+          </if>
+    </select>
+
+</mapper>

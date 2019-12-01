@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="af.itt.sc.mapper.MstUnitInfoMapper">
+  <resultMap id="BaseResultMap" type="af.itt.sc.bean.MstUnitInfo">
+    <id column="unit_cd" jdbcType="CHAR" property="unitCd" />
+    <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_date" jdbcType="DATE" property="createDate" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="update_date" jdbcType="DATE" property="updateDate" />
+  </resultMap>
+
+</mapper>
