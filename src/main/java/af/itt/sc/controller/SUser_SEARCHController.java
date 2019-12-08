@@ -22,7 +22,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import af.base.model.JsonModel;
 import af.base.model.JsonModelTable;
-import af.base.restcontroller.BaseController;
 import af.itt.sc.bean.MstAuthorityInfo;
 import af.itt.sc.bean.UserInfo;
 import af.itt.sc.comon.Message;
@@ -39,7 +38,7 @@ import af.itt.sc.service.SUserService;
  * </pre>
  */
 @Controller
-public class SUser_SEARCHController extends BaseController{
+public class SUser_SEARCHController {
 
     @Autowired
     private SMstInfoService sMstInfoService;
