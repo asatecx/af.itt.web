@@ -6,9 +6,9 @@ import java.util.Map;
 import org.apache.http.NameValuePair;
 import org.springframework.beans.factory.annotation.Value;
 
-import af.base.service.BaseService;
+import af.base.service.RakutenBaseService;
 
-public class AsaBaseService extends BaseService{
+public class AsaBaseService extends RakutenBaseService{
 
 	@Value("${rakuten.webapi.serviceSecret}")
 	private String SERVICE_SECRET;

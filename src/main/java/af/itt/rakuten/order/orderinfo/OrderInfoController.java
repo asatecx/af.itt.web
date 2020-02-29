@@ -49,8 +49,12 @@ public class OrderInfoController {
     public JsonModel getNoitces(@RequestBody SearchCondition searchCondition) {
     	Map<String, Object> param = new HashMap<String, Object>();
 
-		String startDate = DateUtil.convertFormatDate("2019-10-20", "1");
-		String endDate = DateUtil.convertFormatDate("2019-10-20", "2");
+//		String startDate = DateUtil.convertFormatDate("2019-10-20", "1");
+//		String endDate = DateUtil.convertFormatDate("2019-10-20", "2");
+    	String orderStartDate = String.valueOf(searchCondition.getFilterInfo().get("orderStartDate"));
+    	String orderEndDate = String.valueOf(searchCondition.getFilterInfo().get("orderEndDate"));
+    	String startDate = DateUtil.convertFormatDate(orderStartDate, "1");
+		String endDate = DateUtil.convertFormatDate(orderEndDate, "2");
 
 		Map<String, Object> paginationRequestModel = new HashMap<String, Object>();
 		paginationRequestModel.put("requestRecordsAmount", 300);
